@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+        - name: config-server
+          image: {{ index .Values.services "config-server" "image" }}
+          ports:
+            - containerPort: {{ index .Values.services "config-server" "port" }}
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: config-server
+          resources:
+            limits:
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+spec:
+  type: NodePort
+  selector:
+    app: config-server
+  ports:
+    - port: {{ index .Values.services "config-server" "port" }}
+      targetPort: {{ index .Values.services "config-server" "port" }}
+      nodePort: 30088

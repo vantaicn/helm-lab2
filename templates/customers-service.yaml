@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customers-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customers-service
+  template:
+    metadata:
+      labels:
+        app: customers-service
+    spec:
+      containers:
+        - name: customers-service
+          image: {{ index .Values.services "customers-service" "image" }}
+          ports:
+            - containerPort: {{ index .Values.services "customers-service" "port" }}
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: customers-service
+          resources:
+            limits:
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customers-service
+spec:
+  type: NodePort
+  selector:
+    app: customers-service
+  ports:
+    - port: {{ index .Values.services "customers-service" "port" }}
+      targetPort: {{ index .Values.services "customers-service" "port" }}
+      nodePort: 30082
+

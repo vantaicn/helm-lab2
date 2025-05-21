@@ -29,10 +29,9 @@ kind: Service
 metadata:
   name: config-server
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: config-server
   ports:
     - port: {{ index .Values.services "config-server" "port" }}
       targetPort: {{ index .Values.services "config-server" "port" }}
-      nodePort: 30088

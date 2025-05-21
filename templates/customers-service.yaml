@@ -29,11 +29,9 @@ kind: Service
 metadata:
   name: customers-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: customers-service
   ports:
     - port: {{ index .Values.services "customers-service" "port" }}
       targetPort: {{ index .Values.services "customers-service" "port" }}
-      nodePort: 30082
-

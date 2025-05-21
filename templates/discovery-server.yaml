@@ -32,11 +32,9 @@ kind: Service
 metadata:
   name: discovery-server
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: discovery-server
   ports:
     - port: {{ $svc.port }}
       targetPort: {{ $svc.port }}
-      nodePort: 30081
-

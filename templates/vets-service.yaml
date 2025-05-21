@@ -31,10 +31,9 @@ kind: Service
 metadata:
   name: vets-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: vets-service
   ports:
     - port: {{ index .Values.services "vets-service" "port" }}
       targetPort: {{ index .Values.services "vets-service" "port" }}
-      nodePort: 30084

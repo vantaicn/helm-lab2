@@ -31,10 +31,9 @@ kind: Service
 metadata:
   name: visits-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: visits-service
   ports:
     - port: {{ index .Values.services "visits-service" "port" }}
       targetPort: {{ index .Values.services "visits-service" "port" }}
-      nodePort: 30083

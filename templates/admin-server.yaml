@@ -31,10 +31,9 @@ kind: Service
 metadata:
   name: admin-server
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: admin-server
   ports:
     - port: {{ index .Values.services "admin-server" "port" }}
       targetPort: {{ index .Values.services "admin-server" "port" }}
-      nodePort: 30090
